@@ -16,6 +16,7 @@ uint32_t vector_tbl[] __attribute__((section(".isr_vectors"))) = {
 	(uint32_t)Reset_Handler,
 	(uint32_t)NMI_Handler,
 	(uint32_t)HardFault_Handler
+	// Need to add other Interrupt Handlers
 };
 
 
