@@ -1,7 +1,7 @@
 CC = arm-none-eabi-gcc
 MACH = cortex-m4
 OPTIMISATION_FLAGS = -O0
-CFLAGS = -c -mcpu=$(MACH) -mthumb -O $(OPTIMISATION_FLAGS) -Wall
+CFLAGS = -c -mcpu=$(MACH) -mthumb $(OPTIMISATION_FLAGS) -Wall
 
 
 all: main.o led.o stm32_startup.o
