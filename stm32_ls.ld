@@ -1,7 +1,5 @@
 ENTRY(Reset_Handler)
 
-/* Symbol is the name of an address */
-
 /* STM32F4VGT6
  * Flash = 1024 KB
  * SRAM1 = 112 KB
@@ -13,27 +11,26 @@ MEMORY
 	SRAM (rwx)  : ORIGIN = 0x20000000, LENGTH = 128K
 }
 
-/* Symbol declaration */
-__max_heap_size = 0x400;	/* A symbol declaration, not a variable */
-__max_stack_size = 0x200;	/* A symbol declaration, not a variable */
-
-/* NOTE: Location counter always tracks VMA of the section in which it is being used */
+__max_heap_size = 0x400;	/* Symbol declaration */
+__max_stack_size = 0x200;	/* Symbol declaration */
 
 SECTIONS
 {
+	/* NOTE: The Location Counter '.' always tracks VMA of the section in which it is being used */
+
 	/* This section should include .text section of all input files */
-	/* It is not relocated by the startup code, so vma and lma are the same */
+	/* It is not relocated by the startup code, so VMA and LMA are the same */
 	.text :
 	{
-		/* Merge all .isr_vector section of all input files */
-		/* Merge all .text section of all input files */
-		/* Merge all .rodata section of all input files */
+		/* Merge all .isr_vector sections of all input files */
+		/* Merge all .text sections of all input files */
+		/* Merge all .rodata sections of all input files */
 
 		*(.isr_vector)
 		*(.text)
 		*(.rodata)
 
-		_etext = .; /* Store the updated location counter value in to a symbol 'end_of_test' */
+		_etext = .; /* Store location counter value to symbol 'end of text' */
 
 	} > FLASH
 	/*}> (vma) AT> (lma) */
@@ -42,12 +39,12 @@ SECTIONS
 	.data :
 	{
 		/* Here, the location counter resets to start of VMA of this section */
-		_sdata = .; /* Assign a value to a symbol 'start_of_data' */
+		_sdata = .; /* Store location counter value to symbol 'start_of_data' */
 
-		/* Merge all .data section of all input files */
+		/* Merge all .data sections of all input files */
 		*(.data)
 
-		_edata = .; /* Assign a value to a symbol 'end_of_data' */
+		_edata = .; /* Store location counter value to symbol 'end_of_data' */
 
 	}> SRAM AT> FLASH
 
