@@ -1,4 +1,3 @@
-
 CC = arm-none-eabi-gcc
 MACH = cortex-m4
 OPTIMISATION_FLAGS = -O0
@@ -23,4 +22,4 @@ output.elf: main.o led.o stm32_startup.o
 	$(CC) $(LDFLAGS) -o $@ $^
 
 clean:
-	rm -rf *.o *.elf *.bin
+	rm -rf *.o *.elf *.bin *.map

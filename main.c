@@ -12,7 +12,7 @@ int main(void)
 	while(1)
 	{
 		led_on();
-		delay(50000);	
+		delay(50000);
 		led_off();
 		delay(50000);
 	}
