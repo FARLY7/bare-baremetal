@@ -5,6 +5,9 @@ OPTIMISATION_FLAGS = -O0
 CFLAGS = -c -mcpu=$(MACH) -mthumb $(OPTIMISATION_FLAGS) -Wall
 LDFLAGS = -nostdlib -T stm32_ls.ld -Wl,-Map=output.map
 
+# <target>: <dependancies>
+#	<recipe>
+
 all: main.o led.o stm32_startup.o output.elf
 
 main.o: main.c
