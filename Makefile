@@ -22,7 +22,7 @@ output.elf: main.o led.o stm32_startup.o
 	$(CC) $(LDFLAGS) -o $@ $^
 
 output.hex: output.elf
-	arm-none-eabi-objcopy -O ihex $^ $@
+	arm-none-eabi-objcopy -S -O ihex $^ $@
 
 clean:
 	rm -rf *.o *.elf *.bin *.map *.hex
