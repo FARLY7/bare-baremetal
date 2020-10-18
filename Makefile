@@ -1,13 +1,13 @@
 CC = arm-none-eabi-gcc
 MACH = cortex-m4
-OPTIMISATION_FLAGS = -O0
+OPTIMISATION_FLAGS = -O0 -g
 CFLAGS = -c -mcpu=$(MACH) -mthumb $(OPTIMISATION_FLAGS) -Wall
 LDFLAGS = -nostdlib -T stm32_ls.ld -Wl,-Map=output.map
 
 # <target>: <dependancies>
 #	<recipe>
 
-all: main.o led.o stm32_startup.o output.elf
+all: main.o led.o stm32_startup.o output.elf output.hex
 
 main.o: main.c
 	$(CC) $(CFLAGS) -o $@ $^
@@ -21,5 +21,8 @@ stm32_startup.o: stm32_startup.c
 output.elf: main.o led.o stm32_startup.o
 	$(CC) $(LDFLAGS) -o $@ $^
 
+output.hex: output.elf
+	arm-none-eabi-objcopy -O ihex $^ $@
+
 clean:
-	rm -rf *.o *.elf *.bin *.map
+	rm -rf *.o *.elf *.bin *.map *.hex

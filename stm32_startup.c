@@ -1,10 +1,18 @@
 #include <stdint.h>
 
 #define SRAM_START	0x20000000U
-#define SRAM_SIZE	(128U * 1024U) // 128KB
+#define SRAM_SIZE	(20U * 1024U) // 20KB
 #define SRAM_END	((SRAM_START) + (SRAM_SIZE))
 
 #define STACK_START	SRAM_END
+
+/* Linker Symbol definitions */
+extern uint32_t _stext;
+extern uint32_t _etext;
+extern uint32_t _sdata;
+extern uint32_t _edata;
+extern uint32_t _sbss;
+extern uint32_t _ebss;
 
 void main(void);
 
@@ -63,8 +71,6 @@ void EXTI15_10_IRQHandler           (void) __attribute__ ((weak, alias("Default_
 void RTC_Alarm_IRQHandler           (void) __attribute__ ((weak, alias("Default_Handler")));
 void USBWakeUp_IRQHandler           (void) __attribute__ ((weak, alias("Default_Handler")));
 void BootRAM                        (void) __attribute__ ((weak, alias("Default_Handler")));
-
-
 
 uint32_t vectors[] __attribute__((section(".isr_vector")))   = {
 	STACK_START,
@@ -133,8 +139,7 @@ uint32_t vectors[] __attribute__((section(".isr_vector")))   = {
     (uint32_t)0,
     (uint32_t)0,
     (uint32_t)0,
-    (uint32_t)BootRAM          /* @0x108. This is for boot in RAM mode for
-                                STM32F10x Medium Density devices. */
+    (uint32_t)BootRAM
 };
 
 void Default_Handler(void)
@@ -144,12 +149,33 @@ void Default_Handler(void)
 
 void Reset_Handler(void)
 {
-	// Copy .data section to SRAM
-	//
-	// Init the .bss section to zero in SRAM
-	//
-	// Call init function of std. library
-	//
-	// Call main()
+    //
+    // Copy .data section to SRAM
+    //
+    uint32_t size = (uint32_t) &_edata - (uint32_t) &_sdata;
+    uint8_t *pSrc = (uint8_t*) &_etext; /* Flash */
+    uint8_t *pDst = (uint8_t*) &_sdata; /* SRAM */
+    for(int i = 0 ; i < size ; i++)
+    {
+        *pDst++ = *pSrc++;
+    }
+
+    //
+    // Init the .bss section to zero in SRAM
+    //
+    size = (uint32_t) &_ebss - (uint32_t) &_sbss;
+    pDst = (uint8_t*) &_sbss;
+    for(int i = 0 ; i < size ; i++)
+    {
+        *pDst++ = 0;
+    }
+
+    //
+    // Call init function of std. library
+    //
+
+    //
+    // Call main()
+    //
     main();
 }

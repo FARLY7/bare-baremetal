@@ -7,7 +7,7 @@ The project is for the [STM32F103C8T6 Blue Pill](https://stm32-base.org/boards/S
 
 # STM32F103C8T6
 * Flash = 128 KB
- * SRAM  = 20 KB
+* SRAM  = 20 KB
  
 # Toolchain
 The project uses the `arm-none-eabi-gcc` toolchain.

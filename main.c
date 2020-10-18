@@ -1,5 +1,7 @@
 #include "led.h"
 
+#include <stdint.h>
+
 static void delay(uint32_t cycles)
 {
     while(cycles--);
@@ -7,7 +9,7 @@ static void delay(uint32_t cycles)
 
 int main(void)
 {
-	led_init();
+	led_init(); /* Initialise RCC and GPIO */
 
 	while(1)
 	{
